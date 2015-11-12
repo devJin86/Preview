@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+    <title> Image preview  </title>
+    <meta charset="utf-8">
+    <style>
+        .previewOverlay {
+            position: absolute;
+            display: none;
+            top: 0px;
+            left: 0px;
+            background-color: rgba(0, 0, 0, 0.7);
+            width: 800px;
+            height: 800px;
+        }
+        .previewOverlay img {
+            position: relative;
+            border: 20px solid white;
+            border-radius: 10px;
+            top: 50px;
+            left: 50px;
+        }
+        .close {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            color: #fdfdfd;
+            font-size: 50px;
+            text-shadow: 0px 0px 5px black;
+        }
+        .close:after {
+            content: "\2717";
+        }
+        .close:hover {
+            color: orange;
+        }
+    </style>
+    <script src="preview.js"></script>
+    <script>
+        window.onload = function() {
+            Preview.init();
+        }
+
+        var Preview = (function() {
+        	var preview = {};
+        	preview.init = function() {
+        		for (var i = 1; i <= 3; i++) {
+        			this.addListeners(i);
+        		}
+
+        	};
+        	preview.addListeners = function(i) {
+        		var eleId = document.getElementById(i);
+        		console.log(eleId);
+        		eleId.addEventListener("click", function(e) {
+        			e.preventDefault();
+        			createTags(eleId);
+        		});
+
+        	};
+        	function createTags(eleId) {
+        		var div = document.createElement("div");
+        		div.setAttribute("class", "previewOverlay");
+        		div.setAttribute("style", "display: block");
+        		var span = document.createElement("span");
+        		span.setAttribute("class", "close");
+
+
+        		span.addEventListener("click", function(e) {
+        			document.body.removeChild(div);
+        		});
+
+        		var img = document.createElement("img");
+        		img.setAttribute("src", eleId.href);
+
+        		div.appendChild(span);
+        		div.appendChild(img);
+        		document.body.appendChild(div);
+        	}
+
+
+        	return preview;
+        })();
+    </script>
+</head>
+<body>
+<ul>
+    <li><a id="1" href="https://courses.oreillyschool.com/advancedjavascript/homework/images/image1.jpg"
+           data-preview="image1">Mt. Rainier, 1</a></li>
+    <li><a id="2" href="https://courses.oreillyschool.com/advancedjavascript/homework/images/image2.jpg"
+           data-preview="image2">Mt. Rainier, 2</a></li>
+    <li><a id="3" href="https://courses.oreillyschool.com/advancedjavascript/homework/images/image3.jpg"
+           data-preview="image3">Mt. Rainier, 3</a></li>
+</ul>
+</body>
+</html>  
